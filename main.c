@@ -15,7 +15,7 @@ void opening(void)
 }
 int rolldie(void)
 {
-	return reand()%MAX_DIE+1;
+	return rand()%MAX_DIE+1;
 }
 int main(int argc, char *argv[]) {
 	
@@ -32,12 +32,15 @@ int main(int argc, char *argv[]) {
 		int coinResult;
 		char c;
 		
+		board_printBoardStatus();
+		
 		pos += step;
 		printf("이동했습니다");
 		coinResult = board_getBoardCoin(pos);
 		
+		printf("Press any key to continue");
 		scanf("%d", &c);
-		//??flush(stdin);
+		fflush(stdin);
 	}while(1);
 	//2.1.상태출력 
 	//2.2.주사위던지기

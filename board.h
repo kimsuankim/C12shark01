@@ -19,4 +19,4 @@ int board_sharkposition(void);
 int board_moveshark(void);
 
 //특정 칸의 파손 여부 출력
-void board_getBoardStatus(int pos);
+int board_getBoardStatus(int pos);

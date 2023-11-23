@@ -5,7 +5,7 @@
 #define N_BOARD   15
 #define BOARDSTATUS_OK   1
 #define BOARDSTATUS_NOK   0
-#definde N_COINPOS  12
+#define N_COINPOS  12
 #define MAX_COIN  4
 
 static int board_status[N_BOARD];//파손여부 
@@ -79,7 +79,7 @@ int board_sharkposition(void);
 int board_moveshark(void);
 
 //특정 칸의 파손 여부 출력
-void board_getBoardStatus(int pos)
+int board_getBoardStatus(int pos)
 {
 	return board_status[pos]; //값자체를 내보냄 0,1 
 }
