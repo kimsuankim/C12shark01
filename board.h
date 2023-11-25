@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #define BOARDSTATUS_OK   1
 #define BOARDSTATUS_NOK   0 //메인함수에 알려야함 
+#define N_BOARD   15
 
 //보드초기화
 int board_initBoard(void);
@@ -13,10 +14,11 @@ int board_printBoardStatus(void);
 int board_getBoardCoin(int pos);
 
 //상어 위치 출력
-int board_sharkposition(void);
+int board_getSharkposition(void);
 
 //상어 전진 명령
-int board_moveshark(void);
+int board_stepShark(void);
 
 //특정 칸의 파손 여부 출력
 int board_getBoardStatus(int pos);
+
