@@ -14,7 +14,7 @@ int board_printBoardStatus(void);
 int board_getBoardCoin(int pos);
 
 //상어 위치 출력
-int board_getSharkposition(void);
+//int board_getSharkposition(void);
 
 //상어 전진 명령
 int board_stepShark(void);

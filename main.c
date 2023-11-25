@@ -60,8 +60,11 @@ void checkDie(void)
 {
 	int i;
 	for(i=0;i<N_PLAYER;i++)
-	 if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
-	  player_status[i] = PLAYERSTATUS_DIE;
+	{
+		if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
+	     player_status[i] = PLAYERSTATUS_DIE;
+	}
+	
 }
 int game_end(void)
 {
@@ -72,6 +75,7 @@ int game_end(void)
 		if(player_status[i] == PLAYERSTATUS_LIVE)
 		{
 			flag_end = 0;
+			
 			break;
 		}
 	}
@@ -107,8 +111,9 @@ int getWinner(void)
 int main(int argc, char *argv[]) {
 	
 	int i;
-	int pos = 0;
 	int turn = 0;
+	int result_alive = 0;
+	int result_winner = 0;
 	 
 	srand((unsigned)time(NULL));
 	
@@ -151,7 +156,7 @@ int main(int argc, char *argv[]) {
 	
 	//2.2.주사위던지기
 	printf("%s turn!", player_name[turn]);
-	printf("Press any key to roll a die");
+	printf("Press any key to roll a die\n");
 	scanf("%d", &c); //멈추게함 
 	fflush(stdin);//버퍼 남은거 지우기 
     step = rolldie();
@@ -167,23 +172,38 @@ int main(int argc, char *argv[]) {
 	printf("%s moved to %i\n", player_name[turn], player_position[turn]);
 	
 	//2.4.코인얻기
-	coinResult = board_getBoardCoin(pos);
+	coinResult = board_getBoardCoin(player_position[turn]);
 	player_coin[turn] += coinResult;
 	
 	if (coinResult > 0)
 	 printf("Lucky! %s got %i coins\n", player_name[turn], coinResult);
 	
 	//2.5.다음턴: 변수바뀜? 
+	if (player_status[turn] == PLAYERSTATUS_END)
+	 printf("%s reached to the end!\n", player_name[turn]);
+	 
 	turn = (turn + 1)%N_PLAYER; //빙글빙글 wrap arround 
 	//2.6.상어동작(조건: 모든플레이어 한번씩 턴지난후)
-	if(turn == 0)
+	if(turn == 0 && game_end()==0)
 	{
 		int shark_pos = board_stepShark();
 		printf("Shark moved to %i\n", shark_pos);
 		checkDie();
+		
+		for(i=0;i<N_PLAYER;i++)
+		{
+			if(player_status[i] == PLAYERSTATUS_DIE)
+		     printf("%s in pos %i has died TOT (coin %i)\n", player_name[i], player_position[i], player_coin[i]);
+		}
 	 } 
-	//3.게임끝(승자계산, 출력) 
 	}while(game_end() == 0);
-	printf("");
+	
+	//3.게임끝(승자계산, 출력) 
+	result_alive = getAlivePlayer();
+	result_winner = getWinner();
+	printf("GAME END!\n");
+	printf("%i players are alive! winner is %s\n", result_alive, player_name[result_winner]);
+	printf("Congratuation %s !!!!!\n", player_name[result_winner]);
+	
 	return 0;
 }
